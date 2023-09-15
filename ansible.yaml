@@ -44,3 +44,11 @@
       ansible.builtin.shell: cat /var/lib/jenkins/secrets/initialAdminPassword
       register: display
     - debug: msg="{{display.stdout_lines}}"
+    - name: jenkins restart
+      service:
+        name: jenkins
+        state: restarted
+    - name: docker restart
+      service:
+        name: docker
+        state: restarted
