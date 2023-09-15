@@ -30,3 +30,5 @@ Wait for some time. it will take some time to complete it, First it create an Ec
 It will show the **ip address** of the machine and the **initial admin password** of the jenkins
 
 Open the Ip address with the port extension 8080. Install the recommended plugins and create your own username and password.
+
+Create a Pipeline Job --name it anything. select the configuration setting as needed, Our case refer the picture [select the GitHub hook trigger for GITScm pollin](pictures/config.png)
