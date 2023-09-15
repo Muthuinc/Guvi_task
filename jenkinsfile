@@ -26,7 +26,7 @@ pipeline{
                 script{
                     def Image = "${NAME}:${GIT_COMMIT}"
                     withDockerRegistry(credentialsId: 'dockerid') {
-                    Image.push()
+                        Image.push()
                     } 
                 }
             }
