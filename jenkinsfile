@@ -23,12 +23,9 @@ pipeline{
 
         stage('push'){
             steps{
-                script{
-                    def image = "${NAME}:${GIT_COMMIT}"
-                    withDockerRegistry(credentialsId: 'dockerid') {
-                        Image.push(image)
+                withDockerRegistry(credentialsId: 'dockerid') {
+                sh ' docker push "${NAME}:${GIT_COMMIT}" '
                     } 
-                }
             }
         }
     }
