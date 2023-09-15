@@ -16,7 +16,7 @@ pipeline{
             steps{
                 script{
                     def dockerimage = "${NAME}:${GIT_COMMIT}"
-                    docker.build(dockerImage, ".")
+                    docker.build(dockerimage, ".")
                 }
             }
         }
