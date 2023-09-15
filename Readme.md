@@ -31,4 +31,44 @@ It will show the **ip address** of the machine and the **initial admin password*
 
 Open the Ip address with the port extension 8080. Install the recommended plugins and create your own username and password.
 
-Create a Pipeline Job --name it anything. select the configuration setting as needed, Our case refer the picture [select the GitHub hook trigger for GITScm pollin](pictures/config.png)
+Create a Pipeline Job --name it anything. select the configuration setting as needed, Our case refer the picture  
+
+
+ ![select the GitHub hook trigger for GITScm pollin](pictures/config.png)
+
+
+In the pipeline section select the pipeline from scm option and save it. 
+
+#### Next... Go to the github and create a repository set up a web hook 
+Select the _send me everything_ in the event section
+
+![picture](pictures/webhook.png)
+
+Confirm it
+
+![picture](pictures/webhook1.png)
+
+**It's done**  
+
+#### Save the docker credentials  
+
+Go to managejenkins>credentials>system>Globalcredentials  
+select the username and password type. add dockerhub username and PAT token.  
+save it in the same name as you mentioned in the jenkinsfile.
+![picture](pictures/cred.png)  
+
+
+#### Push your files to the repository
+
+In the jenkins controller start the job for the first time. it will start to run as per the jenkinsfile
+
+Commit a small change in the repository and push it, an automatic build will happen.  That's it.
+
+![picture](pictures/pipeline.png)
+
+
+
+[def]: pictures/pipeline.png  
+
+
+Thank you
