@@ -1,0 +1,35 @@
+pipeline{
+    agent any
+    environment{
+        GIT_COMMIT = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+        NAME = "muthuinc/guvitask"
+    }
+    
+    stages{
+        stage('git checkout'){
+            steps{
+                checkout changelog: false, poll: false, scm: scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Muthuinc/Guvi_task.git']])
+            }
+        }
+
+        stage('Build'){
+            steps{
+                script{
+                    def dockerimage = "${NAME}:${GIT_COMMIT}"
+                    docker.build(dockerImage, ".")
+                }
+            }
+        }
+
+        stage('push'){
+            steps{
+                script{
+                    def Image = "${NAME}:${GIT_COMMIT}"
+                    withDockerRegistry(credentialsId: 'dockerid') {
+                    dockerImage.push()
+                    } 
+                }
+            }
+        }
+    }
+}
