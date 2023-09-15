@@ -1,0 +1,46 @@
+- hosts: muthu
+  remote_user: ubuntu
+  become: true  
+  tasks:
+    - name: Adding Docker key       # Installing docker as per the official instructions
+      get_url:  
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/gpg
+    - name: Converting Docker key
+      ansible.builtin.shell:
+        cmd: gpg --dearmor --output /etc/apt/keyrings/docker.gpg /etc/apt/keyrings/gpg
+        creates: /etc/apt/keyrings/docker.gpg
+    - name: Adding docker repo
+      apt_repository:
+        filename: /etc/apt/sources.list.d/docker
+        repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu   jammy stable
+        state: present
+        update_cache: true
+    - name: Adding jenkins key
+      get_url:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+        dest: /usr/share/keyrings/jenkins-keyring.asc
+    - name: Adding jenkins repo
+      apt_repository:
+        filename: /etc/apt/sources.list.d/jenkins
+        repo: deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] 
+              https://pkg.jenkins.io/debian-stable binary/
+        state: present
+        update_cache: true
+    - name: update all			      # Apt update all
+      apt:
+        update_cache: yes
+    - name: installing tools                          # installing some of the essential tools
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop: 
+        - openjdk-11-jre
+        - jenkins
+        - docker-ce
+        - containerd.io
+        - git
+    - name: display the jenkins first time password
+      ansible.builtin.shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+      register: display
+    - debug: msg="{{display.stdout_lines}}"
