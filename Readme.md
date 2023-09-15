@@ -1,1 +1,2 @@
-hello
+# Guvi-task
+    Build the application in docker and push it to the dockerhub repo, These process run automatically in Jenkins server. Github web hook set-up will trigger the build each time the code is pushed to the repository.
